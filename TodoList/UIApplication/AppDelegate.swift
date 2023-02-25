@@ -16,7 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		
 		window = UIWindow(frame: UIScreen.main.bounds)
 		
-		let viewController = ViewController()
+		let viewController = TodoListController()
 		
 		window?.rootViewController = viewController
 		window?.makeKeyAndVisible()
