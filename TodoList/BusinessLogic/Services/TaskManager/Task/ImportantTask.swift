@@ -1,27 +1,11 @@
 //
-//  Task.swift
+//  ImportantTask.swift
 //  TodoList
 //
-//  Created by Konstantin Pimbursky on 25.02.2023.
+//  Created by Konstantin Pimbursky on 26.02.2023.
 //
 
-import UIKit
-
-class Task {
-	
-	// MARK: - Public Properties
-	
-	var title: String
-	var completed = false
-	
-	// MARK: - Initializers
-	
-	init(title: String) {
-		self.title = title
-	}
-}
-
-final class RegularTask: Task {}
+import Foundation
 
 final class ImportantTask: Task {
 	
@@ -29,6 +13,17 @@ final class ImportantTask: Task {
 	
 	enum TaskPriority {
 		case low, medium, high
+		
+		var title: String {
+			switch self {
+			case .high:
+				return "High"
+			case .medium:
+				return "Medium"
+			case .low:
+				return "Low"
+			}
+		}
 	}
 	
 	// MARK: - Public Properties
@@ -51,5 +46,13 @@ final class ImportantTask: Task {
 	init(title: String, taskPriority: TaskPriority) {
 		self.taskPriority = taskPriority
 		super.init(title: title)
+	}
+}
+
+// MARK: - CustomStringConvertible
+
+extension ImportantTask: CustomStringConvertible {
+	var description: String {
+		"- [\(completed ? "x" : " ")] Important, priority \(taskPriority): \(title)."
 	}
 }

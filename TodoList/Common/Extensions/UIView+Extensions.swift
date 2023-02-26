@@ -8,8 +8,14 @@
 import UIKit
 
 extension UIView {
-	// Return class name for use it in Register cells
+	/// Возвращает название класса, чтобы его использовать для регистрации ячеек
 	static var identifier: String {
 		return String(describing: self)
+	}
+	
+	/// Добавляет в subviews массив `UIView`
+	/// - Parameter views: массив `UIView`, которые необходимо добавить как subview
+	func addSubviews(_ views: [UIView]) {
+		views.forEach { addSubview($0) }
 	}
 }
