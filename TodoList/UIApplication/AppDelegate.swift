@@ -18,9 +18,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		
 		let taskManager = TaskManager()
 
-		let regularTask = RegularTask(title: "normalTask")
-		let importantTask = ImportantTask(title: "importantTask", taskPriority: .low)
-
 		taskManager.addTask(task: RegularTask(title: "Task 1"))
 		taskManager.addTask(task: RegularTask(title: "Task 2"))
 		taskManager.addTask(task: RegularTask(title: "Task 3"))
