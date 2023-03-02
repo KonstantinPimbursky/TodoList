@@ -11,12 +11,12 @@ final class TodoListController: UITableViewController {
     
     // MARK: - Private Properties
     
-    private let taskManager: ITaskManager
+    private let sectionForTaskManager: ISectionForTaskManagerAdapter
     
     // MARK: - Initializers
     
-    init(taskManager: ITaskManager) {
-        self.taskManager = taskManager
+    init(sectionForTaskManager: ISectionForTaskManagerAdapter) {
+        self.sectionForTaskManager = sectionForTaskManager
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -34,11 +34,11 @@ final class TodoListController: UITableViewController {
     // MARK: - Public Methods
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        2
+		sectionForTaskManager.getSectionTitles().count
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        section == 0 ? taskManager.completedTasks().count : taskManager.uncompletedTasks().count
+		sectionForTaskManager.getTasksForSection(section: section).count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -53,61 +53,39 @@ final class TodoListController: UITableViewController {
             let priorityTitle = getPriorityTitle(cellData.taskPriority)
             let text = priorityTitle + " " + cellData.title
             
-            let mutableAttributedString = NSMutableAttributedString(
-                string: text,
-                attributes: [.foregroundColor: UIColor.black]
-            )
+			let range = (text as NSString).range(of: priorityTitle)
+            let mutableAttributedString = NSMutableAttributedString(string: text)
+			mutableAttributedString.addAttribute(.foregroundColor, value: UIColor.red, range: range)
             
             content.attributedText = mutableAttributedString
             content.secondaryText = "Deadline: " + cellData.deadline.formatted(.dateTime)
-            content.textProperties.color = cellData.deadline < Date() ? .systemGray : .systemPink
+            content.textProperties.color = cellData.deadline < Date() ? .systemPink : .black
         }
         
         cell.tintColor = indexPath.section == 0 ? .red : .systemGray
         
         content.secondaryTextProperties.font = UIFont.systemFont(ofSize: 16)
         content.textProperties.font = UIFont.boldSystemFont(ofSize: 19)
-        cell.accessoryType = .checkmark
+		cell.accessoryType = cellData.completed ? .checkmark : .none
         cell.contentConfiguration = content
         
         return cell
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        section == 0 ? "Completes tasks" : "Uncompleted tasks"
+		sectionForTaskManager.getSectionTitles()[section]
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cellData = getCellData(indexPath)
         cellData.completed.toggle()
-        var row = 0
-        if indexPath.section == 0 {
-            taskManager.uncompletedTasks().enumerated().forEach {
-                if $0.element === cellData {
-                    row = $0.offset
-                }
-            }
-            let newIndexPath = IndexPath(row: row, section: 1)
-            tableView.moveRow(at: indexPath, to: newIndexPath)
-            tableView.cellForRow(at: newIndexPath)?.tintColor = .systemGray
-            tableView.deselectRow(at: newIndexPath, animated: true)
-        } else {
-            taskManager.completedTasks().enumerated().forEach {
-                if $0.element === cellData {
-                    row = $0.offset
-                }
-            }
-            let newIndexPath = IndexPath(row: row, section: 0)
-            tableView.moveRow(at: indexPath, to: newIndexPath)
-            tableView.cellForRow(at: newIndexPath)?.tintColor = .red
-            tableView.deselectRow(at: newIndexPath, animated: true)
-        }
+		tableView.reloadData()
     }
     
     // MARK: - Private Methods
     
     private func getCellData(_ indexPath: IndexPath) -> Task {
-        indexPath.section == 0 ? taskManager.completedTasks()[indexPath.row] : taskManager.uncompletedTasks()[indexPath.row]
+		sectionForTaskManager.getTasksForSection(section: indexPath.section)[indexPath.row]
     }
     
     private func getPriorityTitle(_ priority: ImportantTask.TaskPriority) -> String {
