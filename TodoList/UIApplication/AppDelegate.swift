@@ -16,20 +16,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		
 		window = UIWindow(frame: UIScreen.main.bounds)
 		
-		let taskManager = TaskManager()
-
-		taskManager.addTask(task: RegularTask(title: "Task 1"))
-		taskManager.addTask(task: RegularTask(title: "Task 2"))
-		taskManager.addTask(task: RegularTask(title: "Task 3"))
-
-		let importantTask3 = ImportantTask(title: "ImportantTask 3", taskPriority: .high)
-		taskManager.addTask(task: ImportantTask(title: "ImportantTask 1", taskPriority: .low))
-		taskManager.addTask(task: ImportantTask(title: "ImportantTask 2", taskPriority: .medium))
-		taskManager.addTask(task: importantTask3)
-
-		importantTask3.completed = true
-		
-		let viewController = TodoListController(taskManager: taskManager)
+		let defaultTaskManager = TaskManager()
+		let repository = TaskRepository()
+		repository.getTasks().forEach {
+			defaultTaskManager.addTask(task: $0)
+		}
+		let orderedTaskManager = OrderedTaskManager(taskManage: defaultTaskManager)
+		let sectionManager = SectionForTaskManagerAdapter(taskManager: orderedTaskManager)
+		let viewController = TodoListController(sectionForTaskManager: sectionManager)
 		
 		window?.rootViewController = viewController
 		window?.makeKeyAndVisible()
