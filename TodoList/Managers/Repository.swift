@@ -7,10 +7,14 @@
 
 import Foundation
 
+/// Протокол репозитория списка задач.
 protocol ITaskRepository {
+	/// Возвращает список задач.
+	/// - Returns: массив задач из репозитория.
 	func getTasks() -> [Task]
 }
 
+/// Класс стандартного репозитория списка задач
 final class TaskRepository: ITaskRepository {
 	func getTasks() -> [Task] {
 		[

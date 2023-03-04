@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Класс менеджера задач, сортирующий задачи по приоритету от наиболее важной к наименее.
 final class OrderedTaskManager: ITaskManager {
 	
 	// MARK: - Private Properties
@@ -66,18 +67,5 @@ final class OrderedTaskManager: ITaskManager {
 extension ImportantTask.TaskPriority: Comparable {
 	static func < (lhs: ImportantTask.TaskPriority, rhs: ImportantTask.TaskPriority) -> Bool {
 		lhs.mesure < rhs.mesure
-	}
-}
-
-extension ImportantTask.TaskPriority {
-	var mesure: Int {
-		switch self {
-		case .low:
-			return 0
-		case .medium:
-			return 1
-		case .high:
-			return 2
-		}
 	}
 }

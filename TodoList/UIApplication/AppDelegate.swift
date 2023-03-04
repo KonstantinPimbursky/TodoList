@@ -16,6 +16,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		
 		window = UIWindow(frame: UIScreen.main.bounds)
 		
+		window?.rootViewController = createRootViewController()
+		window?.makeKeyAndVisible()
+		
+		return true
+	}
+	
+	private func createRootViewController() -> UIViewController {
 		let defaultTaskManager = TaskManager()
 		let repository = TaskRepository()
 		repository.getTasks().forEach {
@@ -23,14 +30,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		}
 		let orderedTaskManager = OrderedTaskManager(taskManage: defaultTaskManager)
 		let sectionManager = SectionForTaskManagerAdapter(taskManager: orderedTaskManager)
-		let viewController = TodoListController(sectionForTaskManager: sectionManager)
 		
-		window?.rootViewController = viewController
-		window?.makeKeyAndVisible()
-		
-		return true
+		let todoListController = TodoListController()
+		todoListController.presenter = TodoListPresenter(view: todoListController, sectionManager: sectionManager)
+		return todoListController
 	}
-
-
 }
-

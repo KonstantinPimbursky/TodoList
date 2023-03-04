@@ -7,14 +7,7 @@
 
 import Foundation
 
-protocol ITaskManager: AnyObject {
-	func allTasks() -> [Task]
-	func completedTasks() -> [Task]
-	func uncompletedTasks() -> [Task]
-	func addTask(task: Task)
-	func removeTask(task: Task)
-}
-
+/// Класс стандартного менеджера задач.
 final class TaskManager: ITaskManager {
 	
 	// MARK: - Private Properties

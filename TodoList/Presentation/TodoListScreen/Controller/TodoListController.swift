@@ -7,96 +7,82 @@
 
 import UIKit
 
+protocol ITodoListController: AnyObject {
+	func render(viewData: TodoListModel.ViewData)
+}
+
+/// Контроллер отображения списка задач.
 final class TodoListController: UITableViewController {
     
     // MARK: - Private Properties
     
-    private let sectionForTaskManager: ISectionForTaskManagerAdapter
-    
-    // MARK: - Initializers
-    
-    init(sectionForTaskManager: ISectionForTaskManagerAdapter) {
-        self.sectionForTaskManager = sectionForTaskManager
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+	var viewData: TodoListModel.ViewData = TodoListModel.ViewData(tasksBySections: [])
+	var presenter: ITodoListPresenter?
     
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "TodoList"
+		presenter?.viewIsReady()
     }
     
     // MARK: - Public Methods
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-		sectionForTaskManager.getSectionTitles().count
+		viewData.tasksBySections.count
     }
+	
+	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+		viewData.tasksBySections[section].title
+	}
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		sectionForTaskManager.getTasksForSection(section: section).count
+		viewData.tasksBySections[section].tasks.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellData = getCellData(indexPath)
+		let tasks = viewData.tasksBySections[indexPath.section].tasks
+		let cellData = tasks[indexPath.row]
         let cell = UITableViewCell()
         
         var content = cell.defaultContentConfiguration()
         
-        if let cellData = cellData as? RegularTask {
-            content.text = cellData.title
-        } else if let cellData = cellData as? ImportantTask {
-            let priorityTitle = getPriorityTitle(cellData.taskPriority)
-            let text = priorityTitle + " " + cellData.title
-            
-			let range = (text as NSString).range(of: priorityTitle)
-            let mutableAttributedString = NSMutableAttributedString(string: text)
-			mutableAttributedString.addAttribute(.foregroundColor, value: UIColor.red, range: range)
-            
-            content.attributedText = mutableAttributedString
-            content.secondaryText = "Deadline: " + cellData.deadline.formatted(.dateTime)
-            content.textProperties.color = cellData.deadline < Date() ? .systemPink : .black
-        }
+		switch cellData {
+		case .regularTask(let regularTask):
+			content.text = regularTask.name
+			cell.accessoryType = regularTask.isDone ? .checkmark : .none
+		case .importantTask(let importantTask):
+			let redText = [NSAttributedString.Key.foregroundColor: UIColor.red]
+			let taskText = NSMutableAttributedString(string: "\(importantTask.priority) ", attributes: redText)
+			taskText.append(NSAttributedString(string: importantTask.name))
+			
+			content.attributedText = taskText
+			content.secondaryText = importantTask.deadLine
+			content.textProperties.color = importantTask.isOverdue ? .systemPink : .black
+			cell.accessoryType = importantTask.isDone ? .checkmark : .none
+		}
         
-        cell.tintColor = indexPath.section == 0 ? .red : .systemGray
+        cell.tintColor = .red
         
         content.secondaryTextProperties.font = UIFont.systemFont(ofSize: 16)
         content.textProperties.font = UIFont.boldSystemFont(ofSize: 19)
-		cell.accessoryType = cellData.completed ? .checkmark : .none
+		
         cell.contentConfiguration = content
         
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-		sectionForTaskManager.getSectionTitles()[section]
-    }
-    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cellData = getCellData(indexPath)
-        cellData.completed.toggle()
+		presenter?.didTaskSelected(at: indexPath)
+    }    
+}
+
+// MARK: - ITodoListController
+
+extension TodoListController: ITodoListController {
+	func render(viewData: TodoListModel.ViewData) {
+		self.viewData = viewData
 		tableView.reloadData()
-    }
-    
-    // MARK: - Private Methods
-    
-    private func getCellData(_ indexPath: IndexPath) -> Task {
-		sectionForTaskManager.getTasksForSection(section: indexPath.section)[indexPath.row]
-    }
-    
-    private func getPriorityTitle(_ priority: ImportantTask.TaskPriority) -> String {
-        switch priority {
-        case .low:
-            return "!"
-        case .medium:
-            return "!!"
-        case .high:
-            return "!!!"
-        }
-    }
-    
+	}
 }
