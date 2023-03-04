@@ -1,8 +1,8 @@
 //
-//  TaskManager.swift
+//  ITaskManager.swift
 //  TodoList
 //
-//  Created by Konstantin Pimbursky on 26.02.2023.
+//  Created by Konstantin Pimbursky on 04.03.2023.
 //
 
 import Foundation
@@ -31,32 +31,27 @@ protocol ITaskManager: AnyObject {
 	func removeTask(task: Task)
 }
 
-/// Класс стандартного менеджера задач.
-final class TaskManager: ITaskManager {
-	
-	// MARK: - Private Properties
-	
-	private var taskList = [Task]()
-	
-	// MARK: - Public Methods
-	
-	func allTasks() -> [Task] {
-		taskList
+extension ImportantTask.TaskPriority: CustomStringConvertible {
+	/// Вес важности приоритета. Используется для сортировки задач по приоритету.
+	var mesure: Int {
+		switch self {
+		case .low:
+			return 0
+		case .medium:
+			return 1
+		case .high:
+			return 2
+		}
 	}
 	
-	func completedTasks() -> [Task] {
-		taskList.filter { $0.completed }
-	}
-	
-	func uncompletedTasks() -> [Task] {
-		taskList.filter { !$0.completed }
-	}
-	
-	func addTask(task: Task) {
-		taskList.append(task)
-	}
-	
-	func removeTask(task: Task) {
-		taskList.removeAll { $0 === task }
+	var description: String {
+		switch self {
+		case .low:
+			return "!"
+		case .medium:
+			return "!!"
+		case .high:
+			return "!!!"
+		}
 	}
 }

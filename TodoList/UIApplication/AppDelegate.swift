@@ -23,9 +23,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		}
 		let orderedTaskManager = OrderedTaskManager(taskManage: defaultTaskManager)
 		let sectionManager = SectionForTaskManagerAdapter(taskManager: orderedTaskManager)
-		let viewController = TodoListController(sectionForTaskManager: sectionManager)
 		
-		window?.rootViewController = viewController
+		let todoListController = TodoListController()
+		todoListController.presenter = TodoListPresenter(view: todoListController, sectionManager: sectionManager)
+		
+		window?.rootViewController = todoListController
 		window?.makeKeyAndVisible()
 		
 		return true

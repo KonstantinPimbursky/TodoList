@@ -69,17 +69,3 @@ extension ImportantTask.TaskPriority: Comparable {
 		lhs.mesure < rhs.mesure
 	}
 }
-
-extension ImportantTask.TaskPriority {
-	/// Вес важности приоритета. Используется для сортировки задач по приоритету.
-	var mesure: Int {
-		switch self {
-		case .low:
-			return 0
-		case .medium:
-			return 1
-		case .high:
-			return 2
-		}
-	}
-}
