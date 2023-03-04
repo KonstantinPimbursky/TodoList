@@ -7,8 +7,14 @@
 
 import Foundation
 
+/// Протокол адаптера менеджера задач, разбивающий задачи на секции
 protocol ISectionForTaskManagerAdapter {
+	/// Возвращает массив названий секций.
+	/// - Returns: массив названий секций
 	func getSectionTitles() -> [String]
+	/// Возвращает задачи для секции.
+	/// - Parameter sectionIndex: номер секции.
+	/// - Returns: массив задач для указанной секции.
 	func getTasksForSection(section sectionIndex: Int) -> [Task]
 }
 

@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Класс менеджера задач, сортирующий задачи по приоритету от наиболее важной к наименее.
 final class OrderedTaskManager: ITaskManager {
 	
 	// MARK: - Private Properties
@@ -70,6 +71,7 @@ extension ImportantTask.TaskPriority: Comparable {
 }
 
 extension ImportantTask.TaskPriority {
+	/// Вес важности приоритета. Используется для сортировки задач по приоритету.
 	var mesure: Int {
 		switch self {
 		case .low:

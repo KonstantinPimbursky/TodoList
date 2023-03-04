@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// Контроллер отображения списка задач.
 final class TodoListController: UITableViewController {
     
     // MARK: - Private Properties

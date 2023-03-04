@@ -30,6 +30,7 @@
 		B56FFEB929AF96FC000344B5 /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
 		B56FFEBB29AF9F2B000344B5 /* OrderedTaskManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderedTaskManager.swift; sourceTree = "<group>"; };
 		B56FFEBD29AFA306000344B5 /* SectionForTaskManagerAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionForTaskManagerAdapter.swift; sourceTree = "<group>"; };
+		B57C737F29B3285C00A2E4E7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,6 +47,7 @@
 		B562AB5729AA143600DB3B8A = {
 			isa = PBXGroup;
 			children = (
+				B57C737F29B3285C00A2E4E7 /* README.md */,
 				B562AB6229AA143600DB3B8A /* TodoList */,
 				B562AB6129AA143600DB3B8A /* Products */,
 			);
