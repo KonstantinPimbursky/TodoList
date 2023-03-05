@@ -16,13 +16,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		
 		window = UIWindow(frame: UIScreen.main.bounds)
 		
-		window?.rootViewController = createRootViewController()
+		let todoListController = createTodoListController()
+		
+		window?.rootViewController = todoListController
 		window?.makeKeyAndVisible()
+		
+		let loginController = createLoginViewController()
+		todoListController.present(loginController, animated: false)
 		
 		return true
 	}
 	
-	private func createRootViewController() -> UIViewController {
+	private func createTodoListController() -> UIViewController {
 		let defaultTaskManager = TaskManager()
 		let repository = TaskRepository()
 		repository.getTasks().forEach {
@@ -34,5 +39,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		let todoListController = TodoListController()
 		todoListController.presenter = TodoListPresenter(view: todoListController, sectionManager: sectionManager)
 		return todoListController
+	}
+	
+	private func createLoginViewController() -> UIViewController {
+		let presenter = LoginPresenter()
+		let worker = LoginWorker()
+		let interactor = LoginInteractor(presenter: presenter, worker: worker)
+		let loginController = LoginViewController(interactor: interactor)
+		presenter.viewController = loginController
+		loginController.modalPresentationStyle = .fullScreen
+		return loginController
 	}
 }

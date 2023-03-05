@@ -19,6 +19,11 @@
 		B57C738229B32BA400A2E4E7 /* ITaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57C738129B32BA400A2E4E7 /* ITaskManager.swift */; };
 		B57C738629B32DE300A2E4E7 /* TodoListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57C738529B32DE300A2E4E7 /* TodoListModel.swift */; };
 		B57C738829B32DF500A2E4E7 /* TodoListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57C738729B32DF500A2E4E7 /* TodoListPresenter.swift */; };
+		B57C739029B46A3400A2E4E7 /* LoginPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57C738A29B46A3400A2E4E7 /* LoginPresenter.swift */; };
+		B57C739329B46A3400A2E4E7 /* LoginModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57C738D29B46A3400A2E4E7 /* LoginModels.swift */; };
+		B57C739429B46A3400A2E4E7 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57C738E29B46A3400A2E4E7 /* LoginViewController.swift */; };
+		B57C739529B46A3400A2E4E7 /* LoginInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57C738F29B46A3400A2E4E7 /* LoginInteractor.swift */; };
+		B57C739929B477A800A2E4E7 /* LoginWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57C739829B477A800A2E4E7 /* LoginWorker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +42,11 @@
 		B57C738129B32BA400A2E4E7 /* ITaskManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITaskManager.swift; sourceTree = "<group>"; };
 		B57C738529B32DE300A2E4E7 /* TodoListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListModel.swift; sourceTree = "<group>"; };
 		B57C738729B32DF500A2E4E7 /* TodoListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListPresenter.swift; sourceTree = "<group>"; };
+		B57C738A29B46A3400A2E4E7 /* LoginPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPresenter.swift; sourceTree = "<group>"; };
+		B57C738D29B46A3400A2E4E7 /* LoginModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModels.swift; sourceTree = "<group>"; };
+		B57C738E29B46A3400A2E4E7 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		B57C738F29B46A3400A2E4E7 /* LoginInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInteractor.swift; sourceTree = "<group>"; };
+		B57C739829B477A800A2E4E7 /* LoginWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginWorker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +92,7 @@
 		B562AB7729AA194B00DB3B8A /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				B57C738929B46A0C00A2E4E7 /* LoginScreen */,
 				B562AB7E29AA1A3300DB3B8A /* TodoListScreen */,
 				B562AB6E29AA143700DB3B8A /* LaunchScreen.storyboard */,
 			);
@@ -159,6 +170,18 @@
 			path = Presenter;
 			sourceTree = "<group>";
 		};
+		B57C738929B46A0C00A2E4E7 /* LoginScreen */ = {
+			isa = PBXGroup;
+			children = (
+				B57C739829B477A800A2E4E7 /* LoginWorker.swift */,
+				B57C738A29B46A3400A2E4E7 /* LoginPresenter.swift */,
+				B57C738D29B46A3400A2E4E7 /* LoginModels.swift */,
+				B57C738E29B46A3400A2E4E7 /* LoginViewController.swift */,
+				B57C738F29B46A3400A2E4E7 /* LoginInteractor.swift */,
+			);
+			path = LoginScreen;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -232,13 +255,18 @@
 				B56FFEBE29AFA306000344B5 /* SectionForTaskManagerAdapter.swift in Sources */,
 				B562AB9129AB20E900DB3B8A /* TaskManager.swift in Sources */,
 				B57C738829B32DF500A2E4E7 /* TodoListPresenter.swift in Sources */,
+				B57C739429B46A3400A2E4E7 /* LoginViewController.swift in Sources */,
+				B57C739529B46A3400A2E4E7 /* LoginInteractor.swift in Sources */,
 				B562AB8F29AA1F7400DB3B8A /* Tasks.swift in Sources */,
+				B57C739029B46A3400A2E4E7 /* LoginPresenter.swift in Sources */,
 				B56FFEBC29AF9F2B000344B5 /* OrderedTaskManager.swift in Sources */,
 				B57C738229B32BA400A2E4E7 /* ITaskManager.swift in Sources */,
 				B57C738629B32DE300A2E4E7 /* TodoListModel.swift in Sources */,
 				B56FFEBA29AF96FC000344B5 /* Repository.swift in Sources */,
+				B57C739329B46A3400A2E4E7 /* LoginModels.swift in Sources */,
 				B562AB6829AA143600DB3B8A /* TodoListController.swift in Sources */,
 				B562AB6429AA143600DB3B8A /* AppDelegate.swift in Sources */,
+				B57C739929B477A800A2E4E7 /* LoginWorker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
